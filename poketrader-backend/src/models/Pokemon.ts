@@ -27,7 +27,7 @@ class Pokemon {
   @Column()
   owner_id: string;
 
-  @ManyToOne(() => Player)
+  @ManyToOne(() => Player, owner => owner.pokemon, { eager: true })
   @JoinColumn({ name: 'owner_id' })
   owner: Player;
 

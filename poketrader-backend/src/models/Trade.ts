@@ -4,11 +4,13 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 import Player from './Player';
+import TradeRegister from './TradeRegister';
 
 @Entity('trades')
 class Trade {
@@ -19,7 +21,7 @@ class Trade {
   @Column()
   from_player_id: string;
 
-  @ManyToOne(() => Player)
+  @ManyToOne(() => Player, fromPlayer => fromPlayer.tradeFrom, { eager: true })
   @JoinColumn({ name: 'from_player_id' })
   fromPlayer: Player;
 
@@ -27,7 +29,7 @@ class Trade {
   @Column()
   to_player_id: string;
 
-  @ManyToOne(() => Player)
+  @ManyToOne(() => Player, toPlayer => toPlayer.tradeTo, { eager: true })
   @JoinColumn({ name: 'to_player_id' })
   toPlayer: Player;
 
@@ -42,6 +44,9 @@ class Trade {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @OneToMany(() => TradeRegister, tradeRegister => tradeRegister.trade)
+  tradeRegister: TradeRegister;
 }
 
 export default Trade;

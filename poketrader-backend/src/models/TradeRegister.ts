@@ -20,7 +20,7 @@ class TradeRegister {
   @Column()
   trade_id: string;
 
-  @ManyToOne(() => Trade)
+  @ManyToOne(() => Trade, trade => trade.tradeRegister, { eager: true })
   @JoinColumn({ name: 'trade_id' })
   trade: Trade;
 
