@@ -16,6 +16,7 @@ export default class CreatePlayers1620352161379 implements MigrationInterface {
           {
             name: 'name',
             type: 'varchar',
+            isUnique: true,
           },
           {
             name: 'created_at',

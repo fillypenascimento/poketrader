@@ -21,6 +21,7 @@ export default class CreatePokemons1620352829471 implements MigrationInterface {
           {
             name: 'resource_id',
             type: 'integer',
+            isUnique: true,
           },
           {
             name: 'name',
