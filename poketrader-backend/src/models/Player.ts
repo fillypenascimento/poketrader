@@ -23,14 +23,18 @@ class Player {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @OneToMany(() => Pokemon, pokemon => pokemon.owner)
-  pokemon: Pokemon;
+  @OneToMany(() => Pokemon, pokemon => pokemon.owner, { eager: true })
+  pokemons: Pokemon[];
 
-  @OneToMany(() => Trade, tradeFrom => tradeFrom.fromPlayer)
-  tradeFrom: Trade;
+  @OneToMany(() => Trade, requestedTrade => requestedTrade.fromPlayer, {
+    eager: true,
+  })
+  requestedTrades: Trade[];
 
-  @OneToMany(() => Trade, tradeTo => tradeTo.toPlayer)
-  tradeTo: Trade;
+  @OneToMany(() => Trade, acceptedTrades => acceptedTrades.toPlayer, {
+    eager: true,
+  })
+  acceptedTrades: Trade[];
 }
 
 export default Player;

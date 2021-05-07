@@ -4,11 +4,13 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 import Player from './Player';
+import TradeRegister from './TradeRegister';
 
 @Entity('pokemons')
 class Pokemon {
@@ -27,7 +29,7 @@ class Pokemon {
   @Column()
   owner_id: string;
 
-  @ManyToOne(() => Player, owner => owner.pokemon, { eager: true })
+  @ManyToOne(() => Player, owner => owner.pokemons)
   @JoinColumn({ name: 'owner_id' })
   owner: Player;
 
@@ -36,6 +38,9 @@ class Pokemon {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @OneToMany(() => TradeRegister, tradeRegisters => tradeRegisters.pokemon)
+  tradeRegisters: TradeRegister[];
 }
 
 export default Pokemon;

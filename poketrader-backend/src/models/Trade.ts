@@ -21,7 +21,7 @@ class Trade {
   @Column()
   from_player_id: string;
 
-  @ManyToOne(() => Player, fromPlayer => fromPlayer.tradeFrom, { eager: true })
+  @ManyToOne(() => Player, fromPlayer => fromPlayer.requestedTrades)
   @JoinColumn({ name: 'from_player_id' })
   fromPlayer: Player;
 
@@ -29,7 +29,7 @@ class Trade {
   @Column()
   to_player_id: string;
 
-  @ManyToOne(() => Player, toPlayer => toPlayer.tradeTo, { eager: true })
+  @ManyToOne(() => Player, toPlayer => toPlayer.acceptedTrades)
   @JoinColumn({ name: 'to_player_id' })
   toPlayer: Player;
 
@@ -45,8 +45,10 @@ class Trade {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @OneToMany(() => TradeRegister, tradeRegister => tradeRegister.trade)
-  tradeRegister: TradeRegister;
+  @OneToMany(() => TradeRegister, tradeRegisters => tradeRegisters.trade, {
+    eager: true,
+  })
+  tradeRegisters: TradeRegister;
 }
 
 export default Trade;

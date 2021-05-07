@@ -20,14 +20,14 @@ class TradeRegister {
   @Column()
   trade_id: string;
 
-  @ManyToOne(() => Trade, trade => trade.tradeRegister, { eager: true })
+  @ManyToOne(() => Trade, trade => trade.tradeRegisters)
   @JoinColumn({ name: 'trade_id' })
   trade: Trade;
 
   @Column()
   pokemon_id: string;
 
-  @ManyToOne(() => Pokemon)
+  @ManyToOne(() => Pokemon, pokemon => pokemon.tradeRegisters, { eager: true })
   @JoinColumn({ name: 'pokemon_id' })
   pokemon: Pokemon;
 
