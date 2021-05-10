@@ -116,6 +116,8 @@ const Dashboard: React.FC = () => {
       {inputError && <Error>{inputError}</Error>}
 
       <Title>Pokemons retrieved</Title>
+      <h2>Retrieved Pokemons are randomly chosen to an owner.</h2>
+      <h2>Go to Traders Center to trade pokemons between the players!</h2>
       <Pokemons>
         {pokemons.map(pokemon => (
           <div key={pokemon.id}>
