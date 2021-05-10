@@ -21,7 +21,9 @@ class Trade {
   @Column()
   from_player_id: string;
 
-  @ManyToOne(() => Player, fromPlayer => fromPlayer.requestedTrades)
+  @ManyToOne(() => Player, fromPlayer => fromPlayer.requestedTrades, {
+    eager: true,
+  })
   @JoinColumn({ name: 'from_player_id' })
   fromPlayer: Player;
 
@@ -29,7 +31,7 @@ class Trade {
   @Column()
   to_player_id: string;
 
-  @ManyToOne(() => Player, toPlayer => toPlayer.acceptedTrades)
+  @ManyToOne(() => Player, toPlayer => toPlayer.acceptedTrades, { eager: true })
   @JoinColumn({ name: 'to_player_id' })
   toPlayer: Player;
 

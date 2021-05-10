@@ -26,14 +26,10 @@ class Player {
   @OneToMany(() => Pokemon, pokemon => pokemon.owner, { eager: true })
   pokemons: Pokemon[];
 
-  @OneToMany(() => Trade, requestedTrade => requestedTrade.fromPlayer, {
-    eager: true,
-  })
+  @OneToMany(() => Trade, requestedTrade => requestedTrade.fromPlayer)
   requestedTrades: Trade[];
 
-  @OneToMany(() => Trade, acceptedTrades => acceptedTrades.toPlayer, {
-    eager: true,
-  })
+  @OneToMany(() => Trade, acceptedTrades => acceptedTrades.toPlayer)
   acceptedTrades: Trade[];
 }
 
