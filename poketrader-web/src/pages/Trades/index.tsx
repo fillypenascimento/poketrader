@@ -14,42 +14,15 @@ import {
 import api from '../../services/api';
 import Header from '../../components/Header';
 
-interface IPokemonPokeAPI {
-  id: number;
-  name: string;
-  base_experience: number;
-}
-
-interface IPokemon {
-  id: string;
-  resource_id: number;
-  name: string;
-  owner_id: string;
-  base_experience: number;
-  created_at: Date;
-  updated_at: Date;
-}
-
-interface IPlayer {
-  id: string;
-  name: string;
-  pokemons: IPokemon[];
-}
+import { IPlayer } from '../shared/interfaces/IPlayer';
+import { IPokemon } from '../shared/interfaces/IPokemon';
+import { ITrade } from '../shared/interfaces/ITrade';
 
 interface ITrading {
   playerInTrade: IPlayer;
   pokemonsBeingTraded: IPokemon[];
   pokemonsAmountInTrade: number;
   totalBaseExperience: number;
-}
-
-interface ITrade {
-  from_player_id: string;
-  to_player_id: string;
-  fair_trade: boolean;
-  fairness_rate: number;
-  from_player_pokemons: IPokemon[];
-  to_player_pokemons: IPokemon[];
 }
 
 const Trades: React.FC = () => {
@@ -195,14 +168,14 @@ const Trades: React.FC = () => {
   }
 
   async function handleSendTrade(): Promise<void> {
-    const sendingTrade: ITrade = {
+    const sendingTrade = {
       from_player_id: tradings[0].playerInTrade.id,
       to_player_id: tradings[1].playerInTrade.id,
       fair_trade: getFairnessRate() <= 1.2,
       fairness_rate: getFairnessRate(),
       from_player_pokemons: tradings[0].pokemonsBeingTraded,
       to_player_pokemons: tradings[1].pokemonsBeingTraded,
-    };
+    } as ITrade;
     await api.post('/trades', sendingTrade);
 
     setTradeCompleted(true);

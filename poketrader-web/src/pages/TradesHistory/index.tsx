@@ -6,40 +6,7 @@ import Header from '../../components/Header';
 
 import { Title, HistoryRegister, PlayerTradeRecord } from './styles';
 
-interface IPlayer {
-  id: string;
-  name: string;
-}
-
-interface IPokemon {
-  id: string;
-  resource_id: number;
-  name: string;
-  owner_id: string;
-  base_experience: number;
-  created_at: Date;
-  updated_at: Date;
-}
-
-interface ITrade {
-  id: string;
-  fromPlayer: IPlayer;
-  toPlayer: IPlayer;
-  fair_trade: boolean;
-  fairness_rate: number;
-  from_player_pokemons: IPokemon[];
-  to_player_pokemons: IPokemon[];
-  created_at: Date;
-  tradeRegisters: ITradeRegister[];
-}
-
-interface ITradeRegister {
-  id: string;
-  trade_id: string;
-  old_owner_id: string;
-  new_owner_id: string;
-  pokemon: IPokemon;
-}
+import { ITrade } from '../shared/interfaces/ITrade';
 
 const TradesHistory: React.FC = () => {
   const [trades, setTrades] = useState<ITrade[]>([]);

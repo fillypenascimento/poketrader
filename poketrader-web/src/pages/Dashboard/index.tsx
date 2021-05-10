@@ -5,26 +5,13 @@ import api from '../../services/api';
 import pokeapi from '../../services/pokeapi';
 import Header from '../../components/Header';
 
+import { IPokemon } from '../shared/interfaces/IPokemon';
+import { IPlayer } from '../shared/interfaces/IPlayer';
+
 interface IPokemonPokeAPI {
   id: number;
   name: string;
   base_experience: number;
-}
-
-interface IPokemon {
-  id: string;
-  resource_id: number;
-  name: string;
-  owner_id: string;
-  base_experience: number;
-  created_at: Date;
-  updated_at: Date;
-}
-
-interface IPlayer {
-  id: string;
-  name: string;
-  pokemons: IPokemon[];
 }
 
 const Dashboard: React.FC = () => {
