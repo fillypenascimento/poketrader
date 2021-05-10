@@ -3,13 +3,14 @@ import { shade } from 'polished';
 
 interface FormProps {
   hasError: boolean;
+  isLoading: boolean;
 }
 
 const Title = styled.h1`
   font-size: 48px;
   color: #3a3a3a;
-  margin-top: 80px;
-  max-width: 450px;
+  margin: 80px 0px 40px 0px;
+  max-width: 600px;
   line-height: 56px;
 `;
 
@@ -41,7 +42,8 @@ const Form = styled.form<FormProps>`
   button {
     width: 210px;
     height: 70px;
-    background: #04d361;
+    background: ${props =>
+      props.isLoading ? shade(0.45, '#E6E6E6') : '#235ead'};
     border-radius: 0px 5px 5px 0px;
     border: 0;
     color: #fff;
@@ -49,7 +51,8 @@ const Form = styled.form<FormProps>`
     transition: background-color 0.2s;
 
     &:hover {
-      background: ${shade(0.15, '#04d361')};
+      background: ${props =>
+        props.isLoading ? shade(0.45, '#E6E6E6') : shade(0.15, '#235ead')};
     }
   }
 `;
@@ -92,22 +95,6 @@ const Pokemons = styled.div`
       color: #a8a8b3;
       margin-top: 4px;
     }
-
-    /* div {
-      margin: 0 16px;
-      flex: 1;
-
-      strong {
-        font-size: 20px;
-        color: #3d3d4d;
-      }
-
-      p {
-        font-size: 18px;
-        color: #a8a8b3;
-        margin-top: 4px;
-      }
-    } */
   }
 `;
 

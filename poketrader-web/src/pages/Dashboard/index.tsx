@@ -1,6 +1,4 @@
 import React, { FormEvent, useEffect, useState } from 'react';
-
-import { getTypeParameterOwner } from 'typescript';
 import { Title, Form, Error, Pokemons } from './styles';
 
 import api from '../../services/api';
@@ -34,17 +32,23 @@ const Dashboard: React.FC = () => {
   const [inputError, setInputError] = useState('');
   const [pokemons, setPokemons] = useState<IPokemon[]>([]);
   const [players, setPlayers] = useState<IPlayer[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     async function loadPokemons(): Promise<void> {
       const response = await api.get<IPokemon[]>('/pokemons');
-      console.log('dataaaa', response.data);
-      setPokemons(response.data);
+
+      const pokemonsResponse = response.data.sort((poke1, poke2) => {
+        const dateP1 = new Date(poke1.updated_at);
+        const dateP2 = new Date(poke2.updated_at);
+
+        return dateP2.getTime() - dateP1.getTime();
+      });
+      setPokemons(pokemonsResponse);
     }
 
     async function loadPlayers(): Promise<void> {
       const response = await api.get<IPlayer[]>('/players');
-      console.log('playeeeeers', response.data);
       setPlayers(response.data);
     }
 
@@ -56,15 +60,18 @@ const Dashboard: React.FC = () => {
     event: FormEvent<HTMLFormElement>,
   ): Promise<void> {
     event.preventDefault();
+    setLoading(true);
 
     if (!newPokemon) {
       setInputError('Insert the pokemon name');
+      setLoading(false);
       return;
     }
 
     const pokemonExists = pokemons.filter(poke => poke.name === newPokemon);
     if (pokemonExists.length > 0) {
       setInputError('This pokemon already exists in the database');
+      setLoading(false);
       return;
     }
 
@@ -75,9 +82,8 @@ const Dashboard: React.FC = () => {
 
       const pokemon: IPokemonPokeAPI = response.data;
 
+      // randomly chooses a player to the retrieved pokemon
       const playerRandom = players[Math.floor(Math.random() * players.length)];
-
-      console.log(playerRandom);
 
       const send = {
         resource_id: pokemon.id,
@@ -91,22 +97,34 @@ const Dashboard: React.FC = () => {
       setPokemons([insertedPokemon.data, ...pokemons]);
       setNewPokemon('');
       setInputError('');
+      setLoading(false);
     } catch (err) {
       setInputError('Check again the name of the pokemon.');
+      setLoading(false);
     }
+  }
+
+  function getPokemonOwnerName(player_id: string): string | undefined {
+    return players.find(player => player.id === player_id)?.name;
   }
 
   return (
     <>
       <Header />
       <Title>Search for pokemons to add to the database</Title>
-      <Form hasError={!!inputError} onSubmit={handleAddPokemon}>
+      <Form
+        isLoading={loading}
+        hasError={!!inputError}
+        onSubmit={handleAddPokemon}
+      >
         <input
           value={newPokemon}
           onChange={e => setNewPokemon(e.target.value)}
           placeholder="Insert the pokemon name"
         />
-        <button type="submit">Buscar</button>
+        <button disabled={loading} type="submit">
+          Buscar
+        </button>
       </Form>
       {inputError && <Error>{inputError}</Error>}
 
@@ -116,15 +134,7 @@ const Dashboard: React.FC = () => {
           <div key={pokemon.id}>
             <strong>{pokemon.name}</strong>
             <p>Base Experience: {pokemon.base_experience}</p>
-            {/* {pokemon.owner_id && (
-              <p>
-                Owner:{' '}
-                {
-                  players.filter(player => player.id === pokemon.owner_id)[0]
-                    .name
-                }
-              </p>
-            )} */}
+            <p>Owner: {getPokemonOwnerName(pokemon.owner_id)}</p>
           </div>
         ))}
       </Pokemons>

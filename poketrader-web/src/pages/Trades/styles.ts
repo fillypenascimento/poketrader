@@ -18,7 +18,7 @@ interface HeadingInfoProps {
 const Title = styled.h1`
   font-size: 48px;
   color: #3a3a3a;
-  margin-top: 80px;
+  margin: 80px 0px 40px 0px;
   max-width: 450px;
   line-height: 56px;
 `;
@@ -125,7 +125,6 @@ const Button = styled.button<ButtonProps>`
 `;
 
 const TradeZone = styled.div`
-  margin-top: 50px;
   height: 589px;
   display: flex;
   flex-direction: row;
@@ -167,15 +166,22 @@ const HeadingInfo = styled.div<HeadingInfoProps>`
   align-items: center;
 
   div {
-    margin-top: 80px;
+    margin-top: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
 
+    color: ${({ fair }: HeadingInfoProps): string =>
+      fair ? '#551A8B' : '#EF5350'};
+
     h1 {
-      color: ${({ fair }: HeadingInfoProps): string =>
-        fair ? '#551A8B' : '#EF5350'};
+      font-size: 28px;
+    }
+
+    p {
+      font-size: 20px;
+      padding-bottom: 8px;
     }
   }
 
@@ -185,7 +191,7 @@ const HeadingInfo = styled.div<HeadingInfoProps>`
     }};
     border-radius: 5px;
     width: 100%;
-    padding: 20px;
+    padding: 15px;
     border: none;
     color: #fff;
     font-size: 24px;
@@ -199,6 +205,12 @@ const HeadingInfo = styled.div<HeadingInfoProps>`
   }
 `;
 
+const Info = styled.div`
+  padding-bottom: 20px;
+  font-size: 18px;
+  text-align: left;
+`;
+
 export {
   Title,
   Form,
@@ -209,4 +221,5 @@ export {
   Button,
   TraderInfo,
   HeadingInfo,
+  Info,
 };
